@@ -7,7 +7,6 @@ struct custom_hash {
         return x ^ (x >> 16);
     }
 };
-
 struct custom_hash {
     static uint64_t splitmix64(uint64_t x) {
         // http://xorshift.di.unimi.it/splitmix64.c
@@ -16,7 +15,6 @@ struct custom_hash {
         x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
         return x ^ (x >> 31);
     }
-
     size_t operator()(uint64_t x) const {
         static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
         return splitmix64(x + FIXED_RANDOM);

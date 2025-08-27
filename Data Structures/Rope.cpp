@@ -1,13 +1,10 @@
-/**
- * Description: insert element at $i$-th position, cut a substring and 
- 	* re-insert somewhere else. At least 2 times slower than handwritten treap.
- * Time: O(\log N) per operation? not well tested
- * Source: https://codeforces.com/blog/entry/10355
- * Verification: CEOI 2018 Day 2 Triangles
-	* https://szkopul.edu.pl/problemset/problem/AzKAZ2RDiVTjeWSBolwoC5zl/site/?key=statement
-	* vector is faster for this problem ...
- */
-
+//* Description: insert element at $i$-th position, cut a substring and 
+// * re-insert somewhere else. At least 2 times slower than handwritten treap. 
+//push_back() - O(log N).
+//pop_back() - O(log N)
+//insert(int x, crope r1): O(log N) and Worst O(N)
+//substr(int x, int l): O(log N)
+//replace(int x, int l, crope r1): O(log N).
 #include <ext/rope>
 using namespace __gnu_cxx;
 void ropeExample() {
@@ -23,19 +20,3 @@ void ropeExample() {
 	v += cur; F0R(i,sz(v)) pr(v[i],' ');
 	ps(); // 1 5 2 3 1 2 3 4 5 2 3
 }
-
-/* 
-Tested in cses https://cses.fi/problemset/task/1749/
-https://cses.fi/problemset/result/10105636/ 2 times slower than ordered set
-It's better to create rope with an given size and value
-
-TLE with 2*10^5
-Need revision!!
-
-push_back() - O(log N).
-pop_back() - O(log N)
-insert(int x, crope r1): O(log N) and Worst O(N)
-substr(int x, int l): O(log N)
-replace(int x, int l, crope r1): O(log N).
-*/
-
