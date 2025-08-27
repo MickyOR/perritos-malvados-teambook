@@ -99,9 +99,9 @@ def unir_lineas_cortas(texto: str, max_len: int = 55) -> str:
     for linea in lineas:
         linea = linea.rstrip()
         not_line_comment = not linea.startswith("//")
-        if not_line_comment and resultado and len(resultado[-1] + " " + linea) <= max_len:
+        if not_line_comment and resultado and len(resultado[-1] + " " + linea.strip()) <= max_len:
             # unir con la línea anterior si esta es corta
-            resultado[-1] += ' ' + linea
+            resultado[-1] += ' ' + linea.strip()
         else:
             resultado.append(linea)
 
