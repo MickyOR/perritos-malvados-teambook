@@ -31,6 +31,8 @@ def section_name(raw: str) -> str | None:
 def file_name(name: str) -> str | None:
     for ext in EXT_WHITELIST:
         if name.endswith(ext):
+            if(ext.endswith(".tex")):
+                print(name)
             name = name.removesuffix(ext)
             name = re.split("[-_\s]+", name)
             return " ".join(w.lower() for w in name)
