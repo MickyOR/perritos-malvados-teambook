@@ -4,7 +4,6 @@ struct Dinitz{
     const int INF = 1e9 + 7;
     Dinitz(){}
     Dinitz(int n, int s, int t) {init(n, s, t);}
-
     void init(int n, int s, int t)
     {
         S = s, T = t;
@@ -16,9 +15,7 @@ struct Dinitz{
     {
         int to, rev, f, cap;
     };
-
     vector<vector<flowEdge> > G;
-
     // Añade arista (st -> en) con su capacidad
     void addEdge(int st, int en, int cap) {
         flowEdge A = {en, (int)G[en].size(), 0, cap};
@@ -26,12 +23,10 @@ struct Dinitz{
         G[st].pb(A);
         G[en].pb(B);
     }
-
     int nodes, S, T; // asignar estos valores al armar el grafo G
                     // nodes = nodos en red de flujo. Hacer G.clear(); G.resize(nodes);
     vi work, lvl;
     vi Q;
-
     bool bfs() {
         int qt = 0;
         Q[qt++] = S;
@@ -48,7 +43,6 @@ struct Dinitz{
         }
         return lvl[T] != -1;
     }
-
     int dfs(int v, int f) {
         if (v == T || f == 0) return f;
         for (int &i = work[v]; i < G[v].size(); i++) {
@@ -64,7 +58,6 @@ struct Dinitz{
         }
         return 0;
     }
-
     int maxFlow() {
         int flow = 0;
         while (bfs()) {
@@ -78,7 +71,6 @@ struct Dinitz{
         return flow;
     }
 };
-
 void test_case() {
     ll n, m, s, t;
     cin >> n >> m >> s >> t;
@@ -90,13 +82,4 @@ void test_case() {
         flow.addEdge(a, b, c);
     }
     ll f = flow.maxFlow(); // max flow
-
-    vector<tuple<ll,ll,ll>> edges; // edges used with flow
-    for (int i = 0; i < n; i++) {
-        for (auto edge : flow.G[i]) {
-            if (edge.f > 0) {
-                edges.pb({i, edge.to, edge.f});
-            }
-        }
-    }
 }
