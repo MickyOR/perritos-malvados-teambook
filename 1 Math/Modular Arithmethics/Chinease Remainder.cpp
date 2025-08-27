@@ -4,11 +4,10 @@ X = a_1 (mod m_1)
 X = a_2 (mod m_2)
 ...
 X = a_k (mod m_k)
- */
 
-// No sure time complexity, but fast
-// I think it is related to lcm or
-// Maybe O(mult(M))
+Not sure time complexity, but fast. Maybe O(mult(M)) I think it is related to lcm or
+*/
+
 ll x, y;
 /// O(log(max(a, b)))
 ll euclid(ll a, ll b) {

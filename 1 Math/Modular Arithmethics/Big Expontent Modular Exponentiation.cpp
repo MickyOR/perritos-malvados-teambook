@@ -1,5 +1,5 @@
-// Calc a^b^c % MOD
-// MOD is prime
+// Calc a^b^c % MOD by fermat's theorem.
+// MOD is prime, a^(p-1) = 1 (mod p)
 
 ll pou(ll a, ll b, ll m) {
     ll ans = 1;
@@ -12,13 +12,7 @@ ll pou(ll a, ll b, ll m) {
     return ans;
 }
  
-void test_case() {
-    ll a, b, c;
-    cin >> a >> b >> c;
-    // fermat theorem
-    // a^(p-1) = 1 (mod p)
+void test_case(ll a, ll b, ll c) {
     b = pou(b, c, MOD - 1);
-    a = pou(a, b, MOD);
- 
-    cout << a << "\n";
+    return pou(a, b, MOD);
 }
