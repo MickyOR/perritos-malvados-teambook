@@ -1,16 +1,10 @@
-// TODO: Make this iterative
 struct Node { // Structure
-    ll mn;
-    ll size = 1;
-
-    Node(ll mn):mn(mn) {
-    }
+    ll mn; ll size = 1;
+    Node(ll mn):mn(mn) {}
 };
-
 struct Func { // Applied function
     ll a = 0;
 };
-
 Node e() { // op(x, e()) = x
     Node a(INT64_MAX); // neutral element
     return a;
@@ -22,9 +16,8 @@ Func id() { // mapping(x, id()) = x
 }
 
 Node op(Node &a, Node &b) { // associative property
-    Node c = e();           // binary operation
-    c.size = a.size + b.size;
-    c.mn = min(a.mn, b.mn);
+    Node c = e();  // binary operation
+    c.size = a.size + b.size; c.mn = min(a.mn, b.mn);
     return c;
 }
 
@@ -40,20 +33,15 @@ Func composicion(Func &prev, Func &actual) {
 
 struct lazytree {
     int n;
-    vector<Node> nodes;
-    vector<Func> lazy;
-
+    vector<Node> nodes; vector<Func> lazy;
     void init(int nn) {
         n = nn;
         int size = 1;
-        while (size < n) {
-            size *= 2;
-        }
+        while (size < n) size *= 2;
         ll m = size *2;
         nodes.assign(m, e());
         lazy.assign(m, id());
     }
-
     void push(int i, int sl, int sr) {
         nodes[i] = mapping(nodes[i], lazy[i]);
         if (sl != sr) {
@@ -62,7 +50,6 @@ struct lazytree {
         }
         lazy[i] = id();
     }
-
     void apply(int i, int sl, int sr, int l, int r, Func f) {
         push(i, sl, sr);
         if (l <= sl && sr <= r) {
@@ -76,18 +63,15 @@ struct lazytree {
             nodes[i] = op(nodes[i*2+1],nodes[i*2+2]);
         }
     }
-
     void apply(int l, int r, Func f) {
         assert(l <= r);
         assert(r < n);
         apply(0, 0, n - 1, l, r, f);
     }
-
     void update(int i, Node node) {
         assert(i < n);
         update(0, 0, n-1, i, node);
     }
-
     void update(int i, int sl, int sr, int pos, Node node) {
         if (sl <= pos && pos <= sr) {
             push(i,sl,sr);
@@ -101,7 +85,6 @@ struct lazytree {
             }
         }
     }
-
     Node query(int i, int sl, int sr, int l, int r) {
         push(i,sl,sr);
         if (l <= sl && sr <= r) {
@@ -117,8 +100,7 @@ struct lazytree {
     }
 
     Node query(int l, int r) {
-        assert(l <= r);
-        assert(r < n);
+        assert(l <= r); assert(r < n);
         return query(0, 0, n - 1, l, r);
     }
 };

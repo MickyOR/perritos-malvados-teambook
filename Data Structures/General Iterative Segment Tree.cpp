@@ -1,43 +1,26 @@
 // >>>>>>>>> Implement
 struct Node { ll x = 0; };
-
-Node e() { return Node(); } // null element
- 
+Node e() { return Node(); } // Null el
 Node op(Node &a, Node &b) { // operation
-    Node c;
-    c.x = a.x + b.x;
+    Node c; c.x = a.x + b.x;
     return c;
-}
-// <<<<<<<
- 
+} // <<<<<<<
 struct segtree { 
-    vector<Node> t;
-    ll n;
- 
-    void init(int n) {
-        t.assign(n * 2, e());
-        this->n = n;
-    }
- 
+    vector<Node> t; ll n;
+    void init(int n) { t.assign(n * 2, e());this->n = n;}
     void init(vector<Node>& s) {
-        n = s.size();
-        t.assign(n * 2, e());
-        for (int i = 0; i < n; i++) {
-            t[i+n] = s[i];
-        }
+        n = s.size(); t.assign(n * 2, e());
+        for (int i = 0; i < n; i++) t[i+n] = s[i];
         build();
     }
- 
     void build() {  // build the tree
-        for (int i = n - 1; i > 0; --i) t[i] = op(t[i<<1], t[i<<1|1]);
+        for (int i = n - 1; i > 0; --i)
+            t[i] = op(t[i<<1], t[i<<1|1]);
     }
- 
-    // set value at position p
     void update(int p, const Node& value) {
-        for (t[p += n] = value; p >>= 1; ) t[p] = op(t[p<<1], t[p<<1|1]);
+        for (t[p += n] = value; p >>= 1; ) 
+            t[p] = op(t[p<<1], t[p<<1|1]);
     }
- 
-    // sum on interval [l, r]
     Node query(int l, int r) {
         r++; // make this inclusive
         Node resl=e(), resr=e(); // null element
@@ -47,10 +30,4 @@ struct segtree {
         }
         return op(resl, resr);
     }
- 
-    Node get(int i) {
-        return query(i, i); // improve to o(1)
-    }
-    
-    // TODO: implement left, right binary search
 };
