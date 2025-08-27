@@ -1,16 +1,11 @@
 /*
 Multiple Knacksack
-
 You have a knacksack of a capacity, and 'n' objects with 
 value, weight, and a number of copies that you can buy of that object.
-
 Maximize the value without exceding the capacity of the knacksack.
-
 Time complexity is O(W*N*sum)
 W = capacity, N = number of objects,
 sum is: for (int i =0, sum = 0;i<n;i++) sum += log2(copies[i]) 
-
-Tested in https://cses.fi/problemset/task/1159/
 n<=100, capacity<=10^5, copies[i]<=1000
 */
 ll multipleKnacksack(vl &value, vl& weight, vl&copies, ll capacity) {

@@ -1,21 +1,10 @@
-/**
- * Author: Simon Lindholm
- * Description: Container where you can add lines of the form kx+m, and query maximum values at points x.
- *  Useful for dynamic programming (``convex hull trick'').
- * Time: O(\log N)
- * Status: stress-tested
- */
- 
- // For minimum you can multiply by -1 'k' and 'm' when adding, and the answer when querying.
- // Tested in https://atcoder.jp/contests/dp/submissions/55836691
-#pragma once
-
+// Description: Container where you can add lines of the form kx+m, and query maximum values at points x.
+// For minimum you can multiply by -1 'k' and 'm' when adding, and the answer when querying.
 struct Line {
 	mutable ll k, m, p;
 	bool operator<(const Line& o) const { return k < o.k; }
 	bool operator<(ll x) const { return p < x; }
 };
-
 struct LineContainer : multiset<Line, less<>> {
 	// (for doubles, use inf = 1/.0, div(a,b) = a/b)
 	static const ll inf = LLONG_MAX;

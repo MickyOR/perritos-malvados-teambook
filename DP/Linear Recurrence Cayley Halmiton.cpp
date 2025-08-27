@@ -1,7 +1,5 @@
 // O(N^2 log K)
-
 const int mod = 1e9 + 7;
-
 template <int32_t MOD>
 struct modint {
   int32_t value;
@@ -20,9 +18,7 @@ struct modint {
   }
   modint<MOD> inv() const { return pow(MOD - 2); }  // MOD must be a prime
 };
-
 using mint = modint<mod>;
-
 vector<mint> combine (int n, vector<mint> &a, vector<mint> &b, vector<mint> &tr) {
   vector<mint> res(n * 2 + 1, 0);
   for (int i = 0; i < n + 1; i++) {
@@ -50,7 +46,6 @@ mint LinearRecurrence(vector<mint> &S, vector<mint> &tr, long long k) {
   for (int i = 0; i < n; i++) res += pol[i + 1] * S[i];
   return res;
 }
-
 void test_case() {
     ll n;
     cin >> n; // Fibonacci
