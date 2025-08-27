@@ -1,0 +1,142 @@
+\documentclass[a4paper,landscape]{article} % A4 horizontal
+\usepackage[margin=1cm]{geometry}           % Márgenes
+\usepackage{multicol}                        % Para columnas
+\usepackage{lipsum}                          % Para texto de ejemplo
+\setlength{\columnsep}{0.7cm}                % Espacio entre columnas
+\setlength{\parindent}{1pt}                  % Indentación mínima
+\setlength{\parskip}{1pt}                    % Sin espacio extra entre párrafos
+\usepackage{listings}       % <-- Necesario para lstlisting
+\usepackage{xcolor}         % Para colores en el código
+\usepackage{amsmath}   % Necesario para \text{} en ecuaciones
+\usepackage{amssymb}   % Opcional, para símbolos como \oplus
+
+\lstset{
+    language=C++,           % Lenguaje
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red},
+    showstringspaces=false,
+    numbers=left,
+    numberstyle=\tiny,
+    stepnumber=1,
+    numbersep=5pt,
+    breaklines=true,
+    frame=none             % sin marco
+}
+\begin{document}
+
+% Ya no usamos \maketitle
+
+\begin{multicols}{3}
+\section*{Mobius Multiplicative Functions}
+The following functions are all multiplicative functions, where \( p \) is a prime number and \( k \) is a positive integer:
+
+\begin{itemize}
+    \item The constant function: \( I(p^k) = 1 \).
+    \item The identity function: \( \text{Id}(p^k) = p^k \).
+    \item The power function: \( \text{Id}_a(p^k) = p^{ak} \), where \( a \) is a constant.
+    \item The unit function: \( \chi(p^k) = [ p^k = 1 ] \).
+    \item The divisor function: \( \sigma_a(p^k) = \sum_{i=0}^k p^{ai} \), denoting the sum of the \( a \)-th powers of all the positive divisors of the number.
+    \item The Möbius function: \( \mu(p^k) = [ k = 0 ] - [ k = 1 ] \).
+    \item Euler's totient function: \( \varphi(p^k) = p^k - p^{k-1} \).
+\end{itemize}
+
+\textbf{Note:} \([P]\) refers to the boolean expression, i.e., \([P] = 1\) when \( P \) is true, and \( 0 \) otherwise.
+
+
+\section*{Mobius Inclusion Exclusion Example}
+How many numbers are there less than or equal to n that are free of squares?. Contrainsts: $1 <= n <= 10^{12}$
+\newline\newline
+Change the statement to count the reverse and then sustract: How many numbers are ... that can be divided by a square of a prime. So the answer will be $n -$ Summatory with Inclusion-Exclusion of $f(prime)$
+\newline
+$$ f(prime) = floor(\frac{n}{p*p}) $$
+\newline
+So in those cases of summatory with primes, you can use Mobius to adding or substracting. Final answer is
+
+$$ n - \Sigma^{\sqrt{n}}_{i=1} \mu(i)\left\lfloor \frac{n}{i^2} \right\rfloor $$ 
+\newline
+Or in programming terms:
+
+\begin{lstlisting}[language=C++, frame=None]
+long long ans = n;
+for (int i =1;i<=sqrt(n);i++) {
+    ans -= mo[i] * n/(i*i);
+}
+\end{lstlisting}
+
+
+
+
+\section*{Some Geometry Formulas}
+\subsection*{Volume of Glass with Water (Volumen del Vaso)}
+Given:
+\begin{itemize}
+    \item \( p \) is the height of the water
+    \item \( r_1 \) is the big radius at the water's surface
+    \item \( r_2 \) is the small radius of the base
+\end{itemize}
+
+The volume of the glass with water is given by:
+
+\[
+\text{Volume} = p \cdot \pi \cdot \frac{ \left( r_1^2 + r_2^2 + r_1 \cdot r_2 \right)}{3}
+\]
+
+\subsection*{Heron's Formula}
+Finding the area of a triangle by the length of its sides, also applicable for points using Euclidean distance. You can use the following code to get the area; if the square root is negative, then the triangle is not valid.
+
+\begin{lstlisting}[language=C++, frame=None]
+long double triangle_area(long double a, long double b, long double c) {
+    long double s = (a + b + c) / 2;
+    return sqrtl(s * (s - a) * (s - b) * (s - c));
+}
+\end{lstlisting}
+
+\subsection*{Sine and Cosine Laws}
+Let \( a \), \( b \), and \( c \) be the sides of the triangle, and \( A \), \( B \), and \( C \) the angles opposite to these sides, respectively.
+
+The Sine Law:
+\[
+\frac{a}{\sin A} = \frac{b}{\sin B} = \frac{c}{\sin C}
+\]
+
+The Cosine Law:
+\[
+c^2 = a^2 + b^2 - 2ab \cdot \cos C
+\]
+
+\section*{Some Theorems}
+\section*{Erdős–Szekeres Theorem}
+This theorem is related to increasing and decreasing sequences.
+
+Suppose \( a, b \in \mathbb{N} \), \( n = ab + 1 \), and \( x_1, x_2, \dots, x_n \) is a sequence of \( n \) real numbers. Then this sequence contains a monotonic increasing (decreasing) subsequence of \( a + 1 \) terms or a monotonic decreasing (increasing) subsequence of \( b + 1 \) terms. Dilworth's lemma is a generalization of this theorem.
+
+\section*{Grundy Numbers in Game Theory}
+Grundy numbers are used in game theory to analyze games that can be represented as directed state graphs. In these graphs, if a player loses in a state, its Grundy number is zero; otherwise, it is a positive number. The Grundy number for each vertex is defined as:
+
+\[
+\text{Grundy}(\text{losing state with no moves}) = 0
+\]
+\[
+\text{Grundy}(\text{vertex}) = \text{MEX}(\text{adjacent\_nodes}[\text{vertex}])
+\]
+
+where MEX stands for the "minimum excludant," which is the smallest non-negative integer not present in the set of Grundy numbers of adjacent nodes.
+
+If you have multiple independent games, the final Grundy number is calculated as:
+
+% \[
+% \text{Grundy}(\text{game}_1) \oplus \text{Grundy}(\text{game}_2) \oplus \text{Grundy}(\text{game}_3) \oplus \dots \oplus \text{Grundy}(\text{game}_n)
+% \]
+
+\begin{multline*}
+\text{Grundy}(\text{game}_1) \oplus \text{Grundy}(\text{game}_2) \oplus \text{Grundy}(\text{game}_3) \\
+\oplus \text{Grundy}(\text{game}_4) \oplus \dots \oplus \text{Grundy}(\text{game}_n)
+\end{multline*}
+
+where \( \oplus \) denotes the bitwise XOR operation.
+
+\end{multicols}
+
+\end{document}

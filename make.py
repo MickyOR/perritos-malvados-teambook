@@ -11,7 +11,7 @@ import time
 import re
 from typing import Any
 
-EXT_WHITELIST = [".cpp", ".c", ".typ", ".txt", ".tex"]
+EXT_WHITELIST = [".cpp", ".c", ".typ", ".txt", ".py"]
 PLATFORM_TYPST = {
     "Windows": "typst-windows.exe",
     "Linux": "typst-linux",
@@ -122,7 +122,8 @@ def ingest() -> list[tuple[str, list[tuple[str, str]]]]:
                         filepath = dir.joinpath(filename)
                         txt = filepath.read_text()
                         txt = limpiar_saltos(txt)
-                        txt = unir_lineas_cortas(txt) # Comentar si no es necesario
+                        if not filename.endswith(".py"):
+                            txt = unir_lineas_cortas(txt) # Comentar si no es necesario
                         sec.append((fname, file_contents(filename, txt)))
                 sections.append((secname, sec))
     return sections
