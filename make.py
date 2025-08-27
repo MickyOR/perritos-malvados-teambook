@@ -92,6 +92,22 @@ def limpiar_saltos(texto: str) -> str:
     
     return texto.strip()
 
+def unir_lineas_cortas(texto: str, max_len: int = 55) -> str:
+    lineas = texto.split('\n')
+    resultado = []
+
+    for linea in lineas:
+        linea = linea.rstrip()
+        not_line_comment = not linea.startswith("//")
+        if not_line_comment and resultado and len(resultado[-1] + " " + linea) <= max_len:
+            # unir con la línea anterior si esta es corta
+            resultado[-1] += ' ' + linea
+        else:
+            resultado.append(linea)
+
+    return '\n'.join(resultado)
+
+
 def ingest() -> list[tuple[str, list[tuple[str, str]]]]:
     sections = []
     for dirname in os.listdir(base_path):
@@ -106,6 +122,7 @@ def ingest() -> list[tuple[str, list[tuple[str, str]]]]:
                         filepath = dir.joinpath(filename)
                         txt = filepath.read_text()
                         txt = limpiar_saltos(txt)
+                        txt = unir_lineas_cortas(txt) # Comentar si no es necesario
                         sec.append((fname, file_contents(filename, txt)))
                 sections.append((secname, sec))
     return sections

@@ -1,10 +1,7 @@
-struct Node { // Structure
-    ll mn; ll size = 1;
+struct Node { ll mn; ll size = 1;
     Node(ll mn):mn(mn) {}
 };
-struct Func { // Applied function
-    ll a = 0;
-};
+struct Func { ll a = 0; };
 Node e() { // op(x, e()) = x
     Node a(INT64_MAX); // neutral element
     return a;
