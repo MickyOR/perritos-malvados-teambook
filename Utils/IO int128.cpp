@@ -12,6 +12,8 @@ __int128 read() {
     }
     return x * f;
 }
+
+
 void print(__int128 x) {
     if (x < 0) {
         putchar('-');

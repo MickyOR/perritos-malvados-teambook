@@ -11,7 +11,7 @@ import time
 import re
 from typing import Any
 
-EXT_WHITELIST = [".cpp", ".c", ".typ", ".txt"]
+EXT_WHITELIST = [".cpp", ".c", ".typ", ".txt", ".tex"]
 PLATFORM_TYPST = {
     "Windows": "typst-windows.exe",
     "Linux": "typst-linux",
@@ -81,6 +81,15 @@ def compose(sections: list[tuple[str, list[tuple[str, str]]]]) -> str:
 #compose({serialize(args)})
     """
 
+def limpiar_saltos(texto: str) -> str:
+    # 1. Si la línea está vacía o solo tiene espacios/tabs, conviértela en un salto limpio
+    texto = re.sub(r'^[ \t]+$', '', texto, flags=re.MULTILINE)
+    
+    # 2. Reducir múltiples saltos de línea consecutivos a uno solo
+    texto = re.sub(r'\n+', '\n', texto)
+    
+    return texto.strip()
+
 def ingest() -> list[tuple[str, list[tuple[str, str]]]]:
     sections = []
     for dirname in os.listdir(base_path):
@@ -94,6 +103,7 @@ def ingest() -> list[tuple[str, list[tuple[str, str]]]]:
                     if fname is not None:
                         filepath = dir.joinpath(filename)
                         txt = filepath.read_text()
+                        txt = limpiar_saltos(txt)
                         sec.append((fname, file_contents(filename, txt)))
                 sections.append((secname, sec))
     return sections
